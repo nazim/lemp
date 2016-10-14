@@ -72,17 +72,17 @@ useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/ngin
 	make install
 
 # Install php-fpm and php-mysql
-apt-get install php-fpm php-mysql
+apt-get -y --no-install-recommends install php-fpm php-mysql
 
 # Install Percona SQL
 wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
 dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
 apt-get update
-apt-get install percona-server-server-5.5
+apt-get -y --no-install-recommends install percona-server-server-5.5
 
 # Install Redis
 apt-get update
-apt-get install tcl
+apt-get -y --no-install-recommends install tcl
 cd /tmp
 curl -O http://download.redis.io/redis-stable.tar.gz
 tar xzvf redis-stable.tar.gz
