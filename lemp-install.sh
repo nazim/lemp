@@ -69,8 +69,8 @@ useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/ngin
 	make &&
 	make install
 
-# Install php-fpm and php-mysql
-apt-get -y --no-install-recommends install php-fpm php-mysql
+# Install php-fpm and php-mysql etc.
+apt-get -y --no-install-recommends install php-fpm php-mysql php-curl php-gd php-mbstring php-mcrypt php-xml php-xmlrpc
 
 # Install Percona SQL
 wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
