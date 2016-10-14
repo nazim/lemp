@@ -82,9 +82,9 @@ apt-get -y --no-install-recommends install percona-server-server-5.5
 
 # Install Redis
 apt-get update
-apt-get -y --no-install-recommends install tcl
+apt-get -y install tcl
 cd /tmp
-curl -O http://download.redis.io/redis-stable.tar.gz
+curl -O http://download.redis.io/relases/redis-stable.tar.gz
 tar xzvf redis-stable.tar.gz
 make
 make test
