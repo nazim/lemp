@@ -100,8 +100,8 @@ cp -a /tmp/wordpress/. /etc/nginx/html
 chown -R www-data:www-data /etc/nginx/html
 find /etc/nginx/html -type d -exec chmod g+s {} \;
 chmod g+w /etc/nginx/html/wp-content
-chmod -R g+w /var/www/html/wp-content/themes
-chmod -R g+w /var/www/html/wp-content/plugins
+chmod -R g+w /etc/nginx/html/wp-content/themes
+chmod -R g+w /etc/nginx/html/wp-content/plugins
 
 apt-get purge -yqq automake autoconf libtool git-core build-essential tcl zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev &&
 apt-get autoremove -yqq &&
