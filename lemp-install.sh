@@ -72,6 +72,7 @@ OPENSSL_VERSION=1.0.2j
 	rm -Rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 # Install php-fpm and php-mysql etc.
+apt-get update
 apt-get -y --no-install-recommends install php-fpm php-mysql php-curl php-gd php-mbstring php-mcrypt php-xml php-xmlrpc
 
 # Install Percona SQL
