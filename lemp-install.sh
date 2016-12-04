@@ -78,7 +78,7 @@ apt-get -y --no-install-recommends install php-fpm php-mysql php-curl php-gd php
 wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
 dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
 apt-get update
-apt-get -y --no-install-recommends install percona-server-server-5.5
+apt-get -y --no-install-recommends install percona-server-server-5.6
 
 # Install Redis
 apt-get update
