@@ -1,27 +1,27 @@
 #/bin/bash
 
 # http://nginx.org/en/download.html
-NGINX_VERSION=1.11.4
+NGINX_VERSION=1.11.5
 
 # https://github.com/pagespeed/ngx_pagespeed/releases
-PAGESPEED_VERSION=1.11.33.4
+PAGESPEED_VERSION=latest-stable
+
+PAGESPEED_PSOL_VERSION=1.11.33.4
 
 # https://github.com/openresty/headers-more-nginx-module/tags
 HEADERS_MORE_VERSION=0.31
 
 # https://www.openssl.org/source
-OPENSSL_VERSION=1.0.2i
+OPENSSL_VERSION=1.0.2j
 
-useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/nginx
-	apt-get update
+useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/nginx 
+	apt-get update 
 	apt-get -y --no-install-recommends install wget git-core autoconf automake libtool build-essential zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev
-	echo "Downloading nginx v${NGINX_VERSION} from http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz ..." && wget -qO - http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxf - -C /tmp
-	echo "Downloading headers-more v${HEADERS_MORE_VERSION} from https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz ..." && wget -qO - https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz | tar zxf - -C /tmp
-	echo "Downloading ngx_pagespeed v${PAGESPEED_VERSION} from https://github.com/pagespeed/ngx_pagespeed/archive/v${PAGESPEED_VERSION}-beta.tar.gz..." && wget -qO - https://github.com/pagespeed/ngx_pagespeed/archive/v${PAGESPEED_VERSION}-beta.tar.gz | tar zxf - -C /tmp
-	echo "Downloading pagespeed psol v${PAGESPEED_VERSION} from https://dl.google.com/dl/page-speed/psol/${PAGESPEED_VERSION}.tar.gz..." && wget -qO - https://dl.google.com/dl/page-speed/psol/${PAGESPEED_VERSION}.tar.gz | tar xzf  - -C /tmp/ngx_pagespeed-${PAGESPEED_VERSION}-beta
+	echo "Downloading nginx ${NGINX_VERSION} from http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz ..." && wget -qO - http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxf - -C /tmp
+	echo "Downloading headers-more ${HEADERS_MORE_VERSION} from https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz ..." && wget -qO - https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz | tar zxf - -C /tmp
+	echo "Downloading ngx_pagespeed ${PAGESPEED_VERSION} from https://github.com/pagespeed/ngx_pagespeed/archive/${PAGESPEED_VERSION}.tar.gz..." && wget -qO - https://github.com/pagespeed/ngx_pagespeed/archive/${PAGESPEED_VERSION}.tar.gz | tar zxf - -C /tmp
+	echo "Downloading pagespeed psol ${PAGESPEED_PSOL_VERSION} from https://dl.google.com/dl/page-speed/psol/${PAGESPEED_PSOL_VERSION}.tar.gz..." && wget -qO - https://dl.google.com/dl/page-speed/psol/${PAGESPEED_PSOL_VERSION}.tar.gz | tar xzf  - -C /tmp/ngx_pagespeed-${PAGESPEED_VERSION}
 	echo "Downloading openssl v${OPENSSL_VERSION} from https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz ..." && wget -qO - https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz | tar xzf  - -C /tmp
-	echo "Installing libbrotli (latest) from https://github.com/bagder/libbrotli ..." && git clone https://github.com/bagder/libbrotli /tmp/libbrotli && cd /tmp/libbrotli && ./autogen.sh && ./configure && make && make install
-  echo "Downloading ngx-brotli (latest) from https://github.com/google/ngx_brotli ..." && git clone https://github.com/google/ngx_brotli /tmp/ngx_brotli
 	cd /tmp/nginx-${NGINX_VERSION}
 	./configure \
 		--prefix=/etc/nginx  \
@@ -36,8 +36,8 @@ useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/ngin
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp  \
 		--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp  \
 		--http-scgi-temp-path=/var/cache/nginx/scgi_temp  \
-		--user=www-data  \
-		--group=www-data  \
+		--user=nginx  \
+		--group=nginx  \
 		--with-http_ssl_module  \
 		--with-http_realip_module  \
 		--with-http_addition_module  \
@@ -65,11 +65,14 @@ useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/ngin
 		--with-ipv6 \
 		--with-pcre-jit \
 		--with-openssl=/tmp/openssl-${OPENSSL_VERSION} \
-    --add-module=/tmp/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
-    --add-module=/tmp/ngx_brotli \
-		--add-module=/tmp/ngx_pagespeed-${PAGESPEED_VERSION}-beta  && \
-	make &&
+        	--add-module=/tmp/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
+		--add-module=/tmp/ngx_pagespeed-${PAGESPEED_VERSION}
+	make
 	make install
+	apt-get purge -yqq automake autoconf libtool git-core build-essential zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev
+	apt-get autoremove -yqq
+	apt-get clean
+	rm -Rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
 # Install php-fpm and php-mysql etc.
 apt-get -y --no-install-recommends install php-fpm php-mysql php-curl php-gd php-mbstring php-mcrypt php-xml php-xmlrpc
