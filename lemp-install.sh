@@ -14,7 +14,6 @@ HEADERS_MORE_VERSION=0.31
 # https://www.openssl.org/source
 OPENSSL_VERSION=1.0.2j
 
-useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/nginx 
 	apt-get update 
 	apt-get -y --no-install-recommends install wget git-core autoconf automake libtool build-essential zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev
 	echo "Downloading nginx ${NGINX_VERSION} from http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz ..." && wget -qO - http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxf - -C /tmp
@@ -36,8 +35,6 @@ useradd -r -s /usr/sbin/nologin nginx && mkdir -p /var/log/nginx /var/cache/ngin
 		--http-fastcgi-temp-path=/var/cache/nginx/fastcgi_temp  \
 		--http-uwsgi-temp-path=/var/cache/nginx/uwsgi_temp  \
 		--http-scgi-temp-path=/var/cache/nginx/scgi_temp  \
-		--user=nginx  \
-		--group=nginx  \
 		--with-http_ssl_module  \
 		--with-http_realip_module  \
 		--with-http_addition_module  \
