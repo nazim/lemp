@@ -14,6 +14,9 @@ HEADERS_MORE_VERSION=0.31
 # https://www.openssl.org/source
 OPENSSL_VERSION=1.0.2j
 
+#https://redis.io
+REDIS_VERSION=3.2.5
+
 	apt-get update 
 	apt-get -y --no-install-recommends install wget git-core autoconf automake libtool build-essential zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev
 	echo "Downloading nginx ${NGINX_VERSION} from http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz ..." && wget -qO - http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxf - -C /tmp
@@ -85,8 +88,8 @@ apt-get -y --no-install-recommends install percona-server-server-5.6
 apt-get update
 apt-get -y install tcl
 cd /tmp
-curl -O http://download.redis.io/relases/redis-stable.tar.gz
-tar xzvf redis-stable.tar.gz
+curl -O http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz
+tar xzvf redis-${REDIS_VERSION}.tar.gz
 make
 make test
 make install
