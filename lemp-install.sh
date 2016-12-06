@@ -90,6 +90,7 @@ apt-get -y install tcl
 cd /tmp
 curl -O http://download.redis.io/releases/redis-${REDIS_VERSION}.tar.gz
 tar xzvf redis-${REDIS_VERSION}.tar.gz
+cd /tmp/redis-${REDIS_VERSION}
 make
 make test
 make install
