@@ -1,7 +1,7 @@
 #/bin/bash
 
 # http://nginx.org/en/download.html
-NGINX_VERSION=1.11.5
+NGINX_VERSION=1.11.4
 
 # https://github.com/pagespeed/ngx_pagespeed/releases
 PAGESPEED_VERSION=latest-stable
@@ -12,7 +12,7 @@ PAGESPEED_PSOL_VERSION=1.11.33.4
 HEADERS_MORE_VERSION=0.31
 
 # https://www.openssl.org/source
-OPENSSL_VERSION=1.0.2j
+OPENSSL_VERSION=1.0.2h
 
 #https://redis.io
 REDIS_VERSION=3.2.5
@@ -24,6 +24,8 @@ REDIS_VERSION=3.2.5
 	echo "Downloading ngx_pagespeed ${PAGESPEED_VERSION} from https://github.com/pagespeed/ngx_pagespeed/archive/${PAGESPEED_VERSION}.tar.gz..." && wget -qO - https://github.com/pagespeed/ngx_pagespeed/archive/${PAGESPEED_VERSION}.tar.gz | tar zxf - -C /tmp
 	echo "Downloading pagespeed psol ${PAGESPEED_PSOL_VERSION} from https://dl.google.com/dl/page-speed/psol/${PAGESPEED_PSOL_VERSION}.tar.gz..." && wget -qO - https://dl.google.com/dl/page-speed/psol/${PAGESPEED_PSOL_VERSION}.tar.gz | tar xzf  - -C /tmp/ngx_pagespeed-${PAGESPEED_VERSION}
 	echo "Downloading openssl v${OPENSSL_VERSION} from https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz ..." && wget -qO - https://www.openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz | tar xzf  - -C /tmp
+	echo "Installing libbrotli (latest) from https://github.com/bagder/libbrotli ..." && git clone https://github.com/bagder/libbrotli /tmp/libbrotli && cd /tmp/libbrotli && ./autogen.sh && ./configure && make && make install
+        echo "Downloading ngx-brotli (latest) from https://github.com/google/ngx_brotli ..." && git clone https://github.com/google/ngx_brotli /tmp/ngx_brotli
 	cd /tmp/nginx-${NGINX_VERSION}
 	./configure \
 		--prefix=/etc/nginx  \
@@ -66,6 +68,7 @@ REDIS_VERSION=3.2.5
 		--with-pcre-jit \
 		--with-openssl=/tmp/openssl-${OPENSSL_VERSION} \
         	--add-module=/tmp/headers-more-nginx-module-${HEADERS_MORE_VERSION} \
+		--add-module=/tmp/ngx_brotli
 		--add-module=/tmp/ngx_pagespeed-${PAGESPEED_VERSION}
 	make
 	make install
