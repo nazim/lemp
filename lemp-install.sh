@@ -18,7 +18,7 @@ OPENSSL_VERSION=1.0.2j
 REDIS_VERSION=3.2.5
 
 	apt-get update 
-	apt-get -y --no-install-recommends install wget git-core autoconf automake libtool build-essential zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev
+	apt-get -y --no-install-recommends install vsftpd wget git-core autoconf automake libtool build-essential zlib1g-dev libpcre3-dev libxslt1-dev libxml2-dev libgd2-xpm-dev libgeoip-dev libgoogle-perftools-dev libperl-dev
 	echo "Downloading nginx ${NGINX_VERSION} from http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz ..." && wget -qO - http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz | tar zxf - -C /tmp
 	echo "Downloading headers-more ${HEADERS_MORE_VERSION} from https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz ..." && wget -qO - https://github.com/openresty/headers-more-nginx-module/archive/v${HEADERS_MORE_VERSION}.tar.gz | tar zxf - -C /tmp
 	echo "Downloading ngx_pagespeed ${PAGESPEED_VERSION} from https://github.com/pagespeed/ngx_pagespeed/archive/${PAGESPEED_VERSION}.tar.gz..." && wget -qO - https://github.com/pagespeed/ngx_pagespeed/archive/${PAGESPEED_VERSION}.tar.gz | tar zxf - -C /tmp
@@ -76,6 +76,9 @@ REDIS_VERSION=3.2.5
 	apt-get autoremove -yqq
 	apt-get clean
 	rm -Rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+
+# Make new config file for vsftpd
+cp /etc/vsftpd.conf /etc/vsftpd.conf.orig
 
 # Install php-fpm and php-mysql etc.
 apt-get update
