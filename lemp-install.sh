@@ -1,7 +1,7 @@
 #/bin/bash
 
 # http://nginx.org/en/download.html
-NGINX_VERSION=1.11.4
+NGINX_VERSION=1.11.5
 
 # https://github.com/pagespeed/ngx_pagespeed/releases
 PAGESPEED_VERSION=latest-stable
@@ -12,7 +12,7 @@ PAGESPEED_PSOL_VERSION=1.11.33.4
 HEADERS_MORE_VERSION=0.31
 
 # https://www.openssl.org/source
-OPENSSL_VERSION=1.0.2h
+OPENSSL_VERSION=1.0.2j
 
 #https://redis.io
 REDIS_VERSION=3.2.5
